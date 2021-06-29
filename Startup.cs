@@ -51,7 +51,7 @@ namespace Curso_de_ASP.NET_Core
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Escuela}/{action=Index}/{id?}");
             });
         }
     }
