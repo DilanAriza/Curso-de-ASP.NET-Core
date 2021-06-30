@@ -3,7 +3,7 @@
     atributos en el render de la aplicación de esta forma se puede ser 
     mas estricto a hora de renderizar los elementos
  -->
-@model Asignatura
+@model List<Asignatura>
 
 @{
     ViewData["Title"] = "Información Asignatura";
@@ -12,16 +12,11 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<strong>Desde la vista normal</strong>
+@foreach (var asignatura in Model)
+{
+    <partial name="AsignaturaSimple" model="@asignatura"/>
+}
 
-<p>
-    Nombre: @Model.Nombre
-    Id: @Model.UniqueId
-</p>
-
-<strong>Desde la vista parcial</strong>
-
-<partial name="AsignaturaSimple"/>
 
 <h2>Fecha: @ViewData["Fecha"]</h2>
 
