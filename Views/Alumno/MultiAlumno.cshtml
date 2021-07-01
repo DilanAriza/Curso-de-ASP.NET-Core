@@ -3,18 +3,14 @@
     atributos en el render de la aplicación de esta forma se puede ser 
     mas estricto a hora de renderizar los elementos
  -->
-@model List<Asignatura>
+@model List<Alumno>
 
 @{
-    ViewData["Title"] = "Información Asignatura";
+    ViewData["Title"] = "Información Alumno";
     Layout = "Simple";
 }
-
-<h1>@ViewData["Title"]</h1>
-
 <div class="container">
     <partial name="ListaObjetosEscuela" /></partial>
 </div>
-
 <h2>Fecha: @ViewData["Fecha"]</h2>
 

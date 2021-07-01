@@ -9,7 +9,7 @@ namespace Curso_de_ASP.NET_Core.Models
 
         public ObjetoEscuelaBase()
         {
-            
+            UniqueId = Guid.NewGuid().ToString();
         }
 
         public override string ToString()
