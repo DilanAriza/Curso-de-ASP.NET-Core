@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Curso_de_ASP.NET_Core.Models;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Curso_de_ASP.NET_Core.Controllers
 {
@@ -9,42 +10,21 @@ namespace Curso_de_ASP.NET_Core.Controllers
     {
         public IActionResult Index()
         {
-
-            return View(new Asignatura{
-                    Nombre="Programación",
-                }
-            );
+            return View(_context.Asignaturas.FirstOrDefault());
         }
 
         public IActionResult MultiAsignatura(){
-            var listaAsignaturas = new List<Asignatura>()
-            {
-                new Asignatura{
-                    Nombre = "Matemáticas",
-                },
-                new Asignatura{
-                    Nombre = "Educación Física",
-                },
-                new Asignatura{
-                    Nombre = "Castellano",
-                },
-                new Asignatura{
-                    Nombre = "Ciencias Naturales",
-                },
-                new Asignatura{
-                    Nombre = "Programacion",
-                },
-            };
 
             ViewBag.CosaDinamica = "La monja";
             ViewBag.Fecha = DateTime.Now;
 
-            return View(listaAsignaturas); 
+            return View("MultiAsignatura", _context.Asignaturas.ToList()); 
         }
     
+        private EscuelaContext _context;
         public AsignaturaController(EscuelaContext context)
         {
-            
+           _context = context; 
         }
     }
 }
