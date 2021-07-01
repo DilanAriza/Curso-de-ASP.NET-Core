@@ -41,5 +41,10 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
             return View(listaAsignaturas); 
         }
+    
+        public AsignaturaController(EscuelaContext context)
+        {
+            
+        }
     }
 }

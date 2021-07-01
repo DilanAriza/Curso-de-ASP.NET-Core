@@ -13,7 +13,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
             return View(new Alumno{
                     Nombre="Dilan Ariza",
-                    UniqueId= Guid.NewGuid().ToString()
+                    Id= Guid.NewGuid().ToString()
                 }
             );
         }
@@ -39,7 +39,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
                                    Nombre = $"{n1} {n2} {a1}",
                                 };
 
-            return listaAlumnos.OrderBy((al) => al.UniqueId).ToList();
+            return listaAlumnos.OrderBy((al) => al.Id).ToList();
         }
     }
 }
