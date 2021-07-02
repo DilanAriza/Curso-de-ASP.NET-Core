@@ -11,7 +11,17 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<partial name="ObjetoEscuelaSimple"/>
+
+<div class="container">
+    @if (ViewBag.mensaje != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.mensaje
+        </div>
+    }
+
+    <partial name="ObjetoEscuelaSimple"/>
+</div>
 
 <h2>Fecha: @ViewData["Fecha"]</h2>
 
