@@ -8,12 +8,22 @@ namespace Curso_de_ASP.NET_Core.Controllers
 {
     public class AlumnoController: Controller
     {
-        public IActionResult Index()
+        [Route("alumno/")]
+        [Route("alumno/{id}")]
+        public IActionResult Index(string id)
         {
-
-            return View(_context.Alumnos.FirstOrDefault());
+            if(!String.IsNullOrWhiteSpace(id))
+            {
+                var alumno = from alum in _context.Alumnos
+                                                where  alum.Id == id
+                                                select alum;
+                return View(alumno.SingleOrDefault());
+            }
+            else 
+            {
+                return View("MultiAlumno",  _context.Alumnos.ToList()); 
+            }
         }
-
         public IActionResult MultiAlumno(){
             ViewBag.CosaDinamica = "La monja";
             ViewBag.Fecha = DateTime.Now;

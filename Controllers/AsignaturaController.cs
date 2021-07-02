@@ -8,14 +8,14 @@ namespace Curso_de_ASP.NET_Core.Controllers
 {
     public class AsignaturaController: Controller
     {
-        [Route("Asignatura/")]
-        [Route("Asignatura/{asignaturaId}")]
-        public IActionResult Index(string asignaturaId)
+        [Route("asignatura/")]
+        [Route("asignatura/{id}")]
+        public IActionResult Index(string id)
         {
-            if(!String.IsNullOrWhiteSpace(asignaturaId))
+            if(!String.IsNullOrWhiteSpace(id))
             {
                 var asignatura = from asig in _context.Asignaturas
-                                                where  asig.Id == asignaturaId
+                                                where  asig.Id == id
                                                 select asig;
 
                 return View(asignatura.SingleOrDefault());
