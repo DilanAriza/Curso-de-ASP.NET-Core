@@ -6,34 +6,41 @@ using System.Linq;
 
 namespace Curso_de_ASP.NET_Core.Controllers
 {
+
     public class CursoController: Controller
     {
-        [Route("curso/")]
-        [Route("curso/{id}")]
+        [Route("Curso")]
+        [HttpGet("/")]
         public IActionResult Index(string id)
+        {
+            return View("MultiCurso",  _context.Cursos.ToList());
+        }
+
+        [Route("Curso/{id}")]
+        public IActionResult GetOne(string id)
         {
             if(!String.IsNullOrWhiteSpace(id))
             {
                 var curso = from curs in _context.Cursos
                                                 where  curs.Id == id
                                                 select curs;
-                return View(curso.SingleOrDefault());
+                return View("Index",curso.SingleOrDefault());
             }
             else 
             {
-                return View("MultiCurso",  _context.Cursos.ToList()); 
+                return RedirectToAction("Index");
             }
         }
-        public IActionResult MultiCurso(){
-            ViewBag.CosaDinamica = "La monja";
-            ViewBag.Fecha = DateTime.Now;
 
-            return View("MultiCurso", _context.Cursos.ToList()); 
-        }
+        // public IActionResult MultiCurso(){
+        //     ViewBag.CosaDinamica = "La monja";
+        //     ViewBag.Fecha = DateTime.Now;
+
+        //     return View("MultiCurso", _context.Cursos.ToList()); 
+        // }
 
         public IActionResult Create(){
             ViewBag.Fecha = DateTime.Now;
-
             return View(); 
         }
 
@@ -51,7 +58,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
                 ViewBag.mensaje = "Curso creado";
                 
-                return View("Index", curso);
+                return View("GetOne", curso);
             }
             else
             {
