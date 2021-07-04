@@ -10,6 +10,9 @@
     Layout = "Simple";
 }
 <div class="container">
+    @{
+        Html.RenderPartial("_btnCreate", null);
+    }
     <partial name="ListaObjetosEscuela" /></partial>
 </div>
 <h2>Fecha: @ViewData["Fecha"]</h2>

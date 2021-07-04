@@ -10,11 +10,12 @@
                 <th scope="col">Nombre</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-capitalize">
             @foreach (var obj in @Model)
             {
+                    var get = obj.Id;
             <tr>
-                <td>@obj.Id</td>
+                <td>@Html.ActionLink("Ver", "GetOne", new {id = obj.Id}, new {@class="text-light"})</td>
                 <td>@obj.Nombre</td>
             </tr>
             }
