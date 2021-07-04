@@ -9,14 +9,22 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
     public class CursoController: Controller
     {
+
+        private EscuelaContext _context;
+        public CursoController(EscuelaContext context)
+        {
+           _context = context; 
+        }
+
         [Route("Curso")]
-        [HttpGet("/")]
+        [HttpGet]
         public IActionResult Index(string id)
         {
             return View("MultiCurso",  _context.Cursos.ToList());
         }
 
         [Route("Curso/{id}")]
+        [HttpGet]
         public IActionResult GetOne(string id)
         {
             if(!String.IsNullOrWhiteSpace(id))
@@ -32,13 +40,8 @@ namespace Curso_de_ASP.NET_Core.Controllers
             }
         }
 
-        // public IActionResult MultiCurso(){
-        //     ViewBag.CosaDinamica = "La monja";
-        //     ViewBag.Fecha = DateTime.Now;
-
-        //     return View("MultiCurso", _context.Cursos.ToList()); 
-        // }
-
+        [Route("Curso/create")]
+        [HttpGet]
         public IActionResult Create(){
             ViewBag.Fecha = DateTime.Now;
             return View(); 
@@ -64,12 +67,6 @@ namespace Curso_de_ASP.NET_Core.Controllers
             {
                 return View(curso);
             } 
-        }
-
-        private EscuelaContext _context;
-        public CursoController(EscuelaContext context)
-        {
-           _context = context; 
         }
     }
 }
