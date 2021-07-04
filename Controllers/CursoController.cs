@@ -10,23 +10,38 @@ namespace Curso_de_ASP.NET_Core.Controllers
     public class CursoController: Controller
     {
 
+        #region Variables
         private EscuelaContext _context;
+
+        #endregion
+        
+        #region Constructor
         public CursoController(EscuelaContext context)
         {
            _context = context; 
         }
 
+        #endregion
+
+        #region Controllers
+
+        // [GET] - index
         [Route("Curso")]
         [HttpGet]
         public IActionResult Index(string id)
         {
+            
+            ViewBag.Fecha = DateTime.Now;
             return View("MultiCurso",  _context.Cursos.ToList());
         }
 
+        // [GET({id})] - index
         [Route("Curso/{id}")]
         [HttpGet]
         public IActionResult GetOne(string id)
         {
+            
+            ViewBag.Fecha = DateTime.Now;
             if(!String.IsNullOrWhiteSpace(id))
             {
                 var curso = from curs in _context.Cursos
@@ -40,6 +55,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
             }
         }
 
+        // [GET(/create)] - index
         [Route("Curso/create")]
         [HttpGet]
         public IActionResult Create(){
@@ -47,6 +63,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
             return View(); 
         }
 
+        // [POST(/create)] - index
         [HttpPost]
         public IActionResult Create(Curso curso){
             ViewBag.Fecha = DateTime.Now;
@@ -61,12 +78,13 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
                 ViewBag.mensaje = "Curso creado";
                 
-                return View("GetOne", curso);
+                return View("MultiCurso", _context.Cursos.ToList());
             }
             else
             {
                 return View(curso);
             } 
         }
+        #endregion
     }
 }
