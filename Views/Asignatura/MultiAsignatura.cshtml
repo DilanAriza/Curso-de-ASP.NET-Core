@@ -11,6 +11,9 @@
 }
 
 <div class="container">
+    @{
+        await Html.RenderPartialAsync("_btnCreate", null);
+    }
     <partial name="ListaObjetosEscuela" /></partial>
 </div>
 
