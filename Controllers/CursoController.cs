@@ -85,6 +85,32 @@ namespace Curso_de_ASP.NET_Core.Controllers
                 return View(curso);
             } 
         }
+        
+        // [GET(/delete/{Id})] - Delete Curso
+        [Route("Curso/delete/{Id}")]
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            ViewBag.Fecha = DateTime.Now;
+            if(!String.IsNullOrWhiteSpace(id))
+            {
+                var curso = _context.Cursos.FirstOrDefault(c => c.Id == id);
+                if(curso != null)
+                {   
+                    _context.Cursos.Remove(curso);
+                    _context.SaveChanges();
+                    
+                    return View("MultiCurso", _context.Cursos.ToList());
+                }else
+                {
+                    return View("MultiCurso", _context.Cursos.ToList());
+                }
+            }
+            else 
+            {
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
     }
 }
