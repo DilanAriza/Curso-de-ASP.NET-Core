@@ -1,0 +1,27 @@
+﻿<!-- 
+    El "model Escuela" genera que se respeten la visualización de los 
+    atributos en el render de la aplicación de esta forma se puede ser 
+    mas estricto a hora de renderizar los elementos
+ -->
+@model Alumno
+
+@{
+    ViewData["Title"] = "Creación Alumno";
+    Layout = "Simple";
+}
+
+<h1>@ViewData["title"]</h1>
+
+<div class="container mt-5">
+    <div asp-validation-summary="All"></div>
+    <form method="POST" class="mt-5">
+        <div class="form-group">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" class="form-control"/>
+        </div>
+        <input type="submit" class="btn btn-primary"/>
+    </form>   
+</div> 
+
+<h2>Fecha: @ViewData["Fecha"]</h2>
+
