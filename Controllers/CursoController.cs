@@ -86,6 +86,35 @@ namespace Curso_de_ASP.NET_Core.Controllers
             } 
         }
         
+        // [GET(/edit/{Id})] - Delete Curso
+        [Route("Curso/edit/{Id}")]
+        [HttpGet]
+        public IActionResult Edit(String id)
+        {
+            ViewBag.Fecha = DateTime.Now;
+            return View();
+        }
+
+        // [GET(/edit/{Id})] - Delete Curso
+        [Route("Curso/edit/{Id}")]
+        [HttpPost]
+        public IActionResult Edit(Curso curso ,String id)
+        {
+            
+            ViewBag.Fecha = DateTime.Now;
+            if(!String.IsNullOrWhiteSpace(id))
+            {
+                var cursoInDb = _context.Cursos.Where(c => c.Id == id).First();
+                if(cursoInDb != null)
+                {
+                    cursoInDb.Nombre = curso.Nombre;
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+        
         // [GET(/delete/{Id})] - Delete Curso
         [Route("Curso/delete/{Id}")]
         [HttpGet]

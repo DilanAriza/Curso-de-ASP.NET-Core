@@ -18,8 +18,8 @@
                 <td>@obj.Nombre</td>
                 <td>
                     @Html.ActionLink("Eliminar", "Delete", new {Id = obj.Id}, new {@class="btn btn-danger"})
+                    @Html.ActionLink("Editar", "Edit", new {Id = obj.Id}, new {@class="btn btn-info"})
                 </td> 
-                <td></td>
             </tr>
             }
         </tbody>
