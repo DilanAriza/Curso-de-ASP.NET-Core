@@ -28,7 +28,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
         // [GET] - index
         [Route("Curso")]
         [HttpGet]
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
             
             ViewBag.Fecha = DateTime.Now;
