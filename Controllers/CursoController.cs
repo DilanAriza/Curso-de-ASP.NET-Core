@@ -99,17 +99,10 @@ namespace Curso_de_ASP.NET_Core.Controllers
                 {   
                     _context.Cursos.Remove(curso);
                     _context.SaveChanges();
-                    
-                    return View("MultiCurso", _context.Cursos.ToList());
-                }else
-                {
-                    return View("MultiCurso", _context.Cursos.ToList());
                 }
             }
-            else 
-            {
-                return RedirectToAction("Index");
-            }
+            
+            return RedirectToAction("Index");
         }
         #endregion
     }
