@@ -61,7 +61,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
             return View();
         }
 
-        // [GET(/delete/{Id})] - Delete asignatura
+        // [POST(/create)] - index
         [HttpPost]
         public IActionResult Create(Asignatura asignaruta){
             ViewBag.Fecha = DateTime.Now;
@@ -84,6 +84,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
             }
         }
 
+        // [GET(/delete/{Id})] - Delete asignatura
         [Route("asignatura/delete/{id}")]
         [HttpGet]
         public IActionResult Delete(string id)
