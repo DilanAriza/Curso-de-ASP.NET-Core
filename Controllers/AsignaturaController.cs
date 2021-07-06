@@ -75,12 +75,30 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
                 ViewBag.mensaje = "Asignatura creada";
 
-                return View("MultiAsignatura", _context.Asignaturas.ToList());
+                return RedirectToAction("Index");
             }
             else
             {
                 return View(asignaruta);
             }
+        }
+
+        [Route("asignatura/delete/{id}")]
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            ViewBag.Fecha = DateTime.Now;
+            if(!String.IsNullOrWhiteSpace(id))
+            {
+                var asignatura = _context.Asignaturas.FirstOrDefault(a => a.Id == id);
+                if(asignatura != null)
+                {
+                    _context.Asignaturas.Remove(asignatura);
+                    _context.SaveChanges();
+                }
+            }
+            
+            return RedirectToAction("Index");
         }
         #endregion
     }
