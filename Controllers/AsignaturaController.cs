@@ -26,7 +26,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
 
         [Route("asignatura/")]
         [HttpGet]
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
             ViewBag.Fecha = DateTime.Now;
             return View("MultiAsignatura", _context.Asignaturas.ToList());
