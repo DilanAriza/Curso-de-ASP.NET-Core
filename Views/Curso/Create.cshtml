@@ -13,8 +13,11 @@
 <h1>@ViewData["title"]</h1>
 
 <div class="container mt-5">
+    <div id="alerts-from-form">
+        
+    </div>
     <div asp-validation-summary="All"></div>
-    <form method="POST" class="mt-5">
+    <form method="POST" class="mt-5" id="formCreateCourse">
         <div class="form-group">
             <label asp-for="Nombre"></label>
             <input asp-for="Nombre" class="form-control"/>
@@ -34,7 +37,89 @@
         </div>
         <input type="submit" class="btn btn-primary"/>
     </form>   
-</div> 
+</div>
+
+<script>
+
+
+
+    document.getElementById("formCreateCourse").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        // Campo de alertas
+        let alertsContainer = document.getElementById("alerts-from-form");
+
+        // Limpiar el contenedor de alertas
+        alertsContainer.innerHTML = "";
+
+        // Variables a validar
+        let nombre = document.getElementById("Nombre").value;
+        let direccion = document.getElementById("Direcci_n").value;
+        let jornada = document.getElementById("Jornada").value;
+
+        // Variable de manejo de errores 
+        let errors = 0;
+
+        if(nombre.length === 0){
+            let alert = crearAlerta("alert alert-warning", "El campo 'Nombre' es obligatorio");
+            alertsContainer.appendChild(alert);
+            errors++;
+        }else{
+            if(nombre.length != 5){
+                let alert = crearAlerta("alert alert-warning", "El nombre tiene que tener 5 letras");
+                alertsContainer.appendChild(alert);
+                errors++;
+            }
+        }
+
+        if(direccion.length === 0){
+            let alert = crearAlerta("alert alert-warning", "El campo 'Dirección' es obligatorio");
+            alertsContainer.appendChild(alert);
+            errors++;
+        }else{
+            if(direccion.length < 10){
+                let alert = crearAlerta("alert alert-warning", "La dirección tiene que tener una longitud mayor a 10");
+                alertsContainer.appendChild(alert);
+                errors++;
+            }
+        }
+
+        if(jornada === ""){
+            let alert = crearAlerta("alert alert-warning", "Debe seleccionar la jornada");
+            alertsContainer.appendChild(alert);
+            errors++;
+        }
+
+        if(errors === 0){
+            this.submit();
+        }
+    })
+
+    function crearAlerta(className, text){
+        let span = document.createElement('span');
+        let button = document.createElement('button');
+        let alert = document.createElement('div');
+
+        span.setAttribute("aria-hidden", "true");
+        span.innerHTML = "&times;"
+
+        button.className = "close";
+        button.setAttribute("type", "button");
+        button.setAttribute("data-dismiss", "alert");
+        button.setAttribute("aria-label", "Close");
+        button.appendChild(span);
+        
+
+        alert.className = className+" alert-dismissible fade show";
+        alert.setAttribute("role", "alert");
+        alert.innerHTML = text;
+
+        alert.appendChild(button);
+        
+        return alert;
+    }
+
+</script>
 
 <h2>Fecha: @ViewData["Fecha"]</h2>
 
