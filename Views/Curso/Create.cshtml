@@ -60,6 +60,7 @@
         // Variable de manejo de errores 
         let errors = 0;
 
+        // Validando nombre
         if(nombre.length === 0){
             let alert = crearAlerta("alert alert-warning", "El campo 'Nombre' es obligatorio");
             alertsContainer.appendChild(alert);
@@ -72,6 +73,7 @@
             }
         }
 
+        // Validando dirección
         if(direccion.length === 0){
             let alert = crearAlerta("alert alert-warning", "El campo 'Dirección' es obligatorio");
             alertsContainer.appendChild(alert);
@@ -84,6 +86,7 @@
             }
         }
 
+        // Validando jornada
         if(jornada === ""){
             let alert = crearAlerta("alert alert-warning", "Debe seleccionar la jornada");
             alertsContainer.appendChild(alert);
@@ -95,25 +98,31 @@
         }
     })
 
+    // Funcion para crear alerta de bootstrap
     function crearAlerta(className, text){
+
+        // Definiendo los elementos de html
         let span = document.createElement('span');
         let button = document.createElement('button');
         let alert = document.createElement('div');
 
+        // Asignando atributos al span del simbolo de cerrar alerta
         span.setAttribute("aria-hidden", "true");
         span.innerHTML = "&times;"
 
+        // Asignando atributos al botton de cierre de la alerta
         button.className = "close";
         button.setAttribute("type", "button");
         button.setAttribute("data-dismiss", "alert");
         button.setAttribute("aria-label", "Close");
         button.appendChild(span);
         
-
+        // Asignando atributos a la alerta en general
         alert.className = className+" alert-dismissible fade show";
         alert.setAttribute("role", "alert");
         alert.innerHTML = text;
 
+        // insertando botton en la alerta
         alert.appendChild(button);
         
         return alert;
