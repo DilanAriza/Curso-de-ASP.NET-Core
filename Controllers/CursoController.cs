@@ -95,7 +95,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
             return View();
         }
 
-        // [GET(/edit/{Id})] - Delete Curso
+        // [POST(/edit/{Id})] - Delete Curso
         [Route("Curso/edit/{Id}")]
         [HttpPost]
         public IActionResult Edit(Curso curso ,String id)
