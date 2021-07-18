@@ -420,3 +420,4 @@ MigrationBackup/
 
 bin
 obj
+.env
