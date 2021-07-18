@@ -27,9 +27,14 @@ namespace Curso_de_ASP.NET_Core
         {
             services.AddControllersWithViews();
 
-            // Configuración del contexto de datos
+            // // Configuración del contexto de datos locales
+            // services.AddDbContext<EscuelaContext>(
+            //     options => options.UseInMemoryDatabase(databaseName: "testDB")
+            // );
+
+            // Configuración del contexto de datos de sql server
             services.AddDbContext<EscuelaContext>(
-                options => options.UseInMemoryDatabase(databaseName: "testDB")
+                options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString"))
             );
 
         }

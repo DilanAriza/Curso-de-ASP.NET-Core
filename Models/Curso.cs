@@ -7,7 +7,7 @@ namespace Curso_de_ASP.NET_Core.Models
     public class Curso:ObjetoEscuelaBase
     {
         [Required(ErrorMessage="El nombre del curso es un campo requerido")]
-        [StringLength(5)]
+        [StringLength(3)]
         [Display(Prompt="Nombre del curso", Name ="Nombre")]
         public override string Nombre {set;get;}
         public TiposJornada Jornada { get; set; }
