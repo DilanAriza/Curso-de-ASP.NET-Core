@@ -1,97 +1,39 @@
-﻿<!-- 
-    El "model Escuela" genera que se respeten la visualización de los 
-    atributos en el render de la aplicación de esta forma se puede ser 
-    mas estricto a hora de renderizar los elementos
- -->
-@model Asignatura
+@model Curso_de_ASP.NET_Core.Models.Asignatura
 
 @{
-    ViewData["Title"] = "Editar Asignatura";
-    Layout = "Simple";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>@ViewData["title"]</h1>
+<h1>Edit</h1>
 
-<div class="container mt-5">
-    <div id="alerts-from-form">
-        
+<h4>Asignatura</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CursoId" class="control-label"></label>
+                <select asp-for="CursoId" class="form-control" asp-items="ViewBag.CursoId"></select>
+                <span asp-validation-for="CursoId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div asp-validation-summary="All"></div>
-    <form method="POST" class="mt-5" id="formEditAsignatura">
-        <div class="form-group">
-            <label asp-for="Nombre"></label>
-            <input asp-for="Nombre" class="form-control"/>
-        </div>
-        <input type="submit" class="btn btn-primary" value="Guardar"/>
-    </form>   
-</div> 
+</div>
 
-<script>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-    document.getElementById("formEditAsignatura").addEventListener("submit", function(e){
-        e.preventDefault();
-
-        // Campo de alertas
-        let alertsContainer = document.getElementById("alerts-from-form");
-
-        // Limpiar el contenedor de alertas
-        alertsContainer.innerHTML = "";
-
-        // Variables a validar
-        let nombre = document.getElementById("Nombre").value;
-
-        // Variable de manejo de errores 
-        let errors = 0;
-
-        // Validando nombre
-        if(nombre.length === 0){
-            let alert = crearAlerta("alert alert-warning", "El campo 'Nombre' es obligatorio");
-            alertsContainer.appendChild(alert);
-            errors++;
-        }else{
-            if(nombre.length < 3){
-                let alert = crearAlerta("alert alert-warning", "La longitud mínima de la dirección es 3");
-                alertsContainer.appendChild(alert);
-                errors++;
-            }
-        }
-
-        if(errors === 0){
-            this.submit();
-        }
-    })
-
-    // Funcion para crear alerta de bootstrap
-    function crearAlerta(className, text){
-
-        // Definiendo los elementos de html
-        let span = document.createElement('span');
-        let button = document.createElement('button');
-        let alert = document.createElement('div');
-
-        // Asignando atributos al span del simbolo de cerrar alerta
-        span.setAttribute("aria-hidden", "true");
-        span.innerHTML = "&times;"
-
-        // Asignando atributos al botton de cierre de la alerta
-        button.className = "close";
-        button.setAttribute("type", "button");
-        button.setAttribute("data-dismiss", "alert");
-        button.setAttribute("aria-label", "Close");
-        button.appendChild(span);
-        
-        // Asignando atributos a la alerta en general
-        alert.className = className+" alert-dismissible fade show";
-        alert.setAttribute("role", "alert");
-        alert.innerHTML = text;
-
-        // insertando botton en la alerta
-        alert.appendChild(button);
-        
-        return alert;
-    }
-
-</script>
-
-<h2>Fecha: @ViewData["Fecha"]</h2>
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
