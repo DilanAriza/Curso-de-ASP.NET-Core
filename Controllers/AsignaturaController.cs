@@ -1,137 +1,159 @@
-using Microsoft.AspNetCore.Mvc;
-using Curso_de_ASP.NET_Core.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Curso_de_ASP.NET_Core.Models;
 
 namespace Curso_de_ASP.NET_Core.Controllers
 {
-    public class AsignaturaController: Controller
+    public class AsignaturaController : Controller
     {
-        #region Variables
-        private EscuelaContext _context;
+        private readonly EscuelaContext _context;
 
-        #endregion
-        
-        #region Constructor
         public AsignaturaController(EscuelaContext context)
         {
-           _context = context; 
+            _context = context;
         }
 
-        #endregion
-
-        // Controllers
-        #region Controllers
-
-        [Route("asignatura/")]
-        [HttpGet]
-        public IActionResult Index()
+        // GET: Asignatura
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Fecha = DateTime.Now;
-            return View("MultiAsignatura", _context.Asignaturas.ToList());
+            var escuelaContext = _context.Asignaturas.Include(a => a.Curso);
+            return View(await escuelaContext.ToListAsync());
         }
 
-        
-        [Route("asignatura/{id}")]
-        [HttpGet]
-        public IActionResult GetOne(string id)
+        // GET: Asignatura/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-            ViewBag.Fecha = DateTime.Now;
-            if(!String.IsNullOrWhiteSpace(id))
+            if (id == null)
             {
-                var asignatura = from asig in _context.Asignaturas
-                                                where  asig.Id == id
-                                                select asig;
+                return NotFound();
+            }
 
-                return View("Index", asignatura.SingleOrDefault());
-            }
-            else 
+            var asignatura = await _context.Asignaturas
+                .Include(a => a.Curso)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (asignatura == null)
             {
-                return RedirectToAction("Index");
+                return NotFound();
             }
+
+            return View(asignatura);
         }
 
-        // [GET(/create)] - create new asignatura
-        [Route("asignatura/create")]
-        [HttpGet]
+        // GET: Asignatura/Create
         public IActionResult Create()
         {
-            ViewBag.Fecha = DateTime.Now;
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Id");
             return View();
         }
 
-        // [POST(/create)] - index
+        // POST: Asignatura/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create(Asignatura asignaruta){
-            ViewBag.Fecha = DateTime.Now;
-
-            if(ModelState.IsValid)
-            {
-                var curso = _context.Cursos.FirstOrDefault();
-                asignaruta.CursoId = curso.Id;
-
-                _context.Asignaturas.Add(asignaruta);
-                _context.SaveChanges();
-
-                ViewBag.mensaje = "Asignatura creada";
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View(asignaruta);
-            }
-        }
-
-
-        // [GET(/edit/{Id})] - Delete Curso
-        [Route("asignatura/edit/{Id}")]
-        [HttpGet]
-        public IActionResult Edit(String id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Nombre,CursoId,Id")] Asignatura asignatura)
         {
-            ViewBag.Fecha = DateTime.Now;
-            return View();
+            if (ModelState.IsValid)
+            {
+                _context.Add(asignatura);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Id", asignatura.CursoId);
+            return View(asignatura);
         }
 
-        // [GET(/edit/{Id})] - Delete Curso
-        [Route("asignatura/edit/{Id}")]
+        // GET: Asignatura/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var asignatura = await _context.Asignaturas.FindAsync(id);
+            if (asignatura == null)
+            {
+                return NotFound();
+            }
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Id", asignatura.CursoId);
+            return View(asignatura);
+        }
+
+        // POST: Asignatura/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Edit(Asignatura asignatura ,String id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("Nombre,CursoId,Id")] Asignatura asignatura)
         {
-            
-            ViewBag.Fecha = DateTime.Now;
-            if(!String.IsNullOrWhiteSpace(id))
+            if (id != asignatura.Id)
             {
-                var AsignaturaInDb = _context.Asignaturas.Where(a => a.Id == id).First();
-                if(AsignaturaInDb != null)
-                {
-                    AsignaturaInDb.Nombre = asignatura.Nombre;
-                    _context.SaveChanges();
-                }
+                return NotFound();
             }
 
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(asignatura);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AsignaturaExists(asignatura.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Id", asignatura.CursoId);
+            return View(asignatura);
         }
 
-        // [GET(/delete/{Id})] - Delete asignatura
-        [Route("asignatura/delete/{id}")]
-        [HttpGet]
-        public IActionResult Delete(string id)
+        // GET: Asignatura/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            ViewBag.Fecha = DateTime.Now;
-            if(!String.IsNullOrWhiteSpace(id))
+            if (id == null)
             {
-                var asignatura = _context.Asignaturas.FirstOrDefault(a => a.Id == id);
-                if(asignatura != null)
-                {
-                    _context.Asignaturas.Remove(asignatura);
-                    _context.SaveChanges();
-                }
+                return NotFound();
             }
 
-            return RedirectToAction("Index");
+            var asignatura = await _context.Asignaturas
+                .Include(a => a.Curso)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (asignatura == null)
+            {
+                return NotFound();
+            }
+
+            return View(asignatura);
         }
-        #endregion
+
+        // POST: Asignatura/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var asignatura = await _context.Asignaturas.FindAsync(id);
+            _context.Asignaturas.Remove(asignatura);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool AsignaturaExists(string id)
+        {
+            return _context.Asignaturas.Any(e => e.Id == id);
+        }
     }
 }
