@@ -48,8 +48,8 @@ namespace Curso_de_ASP.NET_Core.Controllers
         // GET: Evaluación/Create
         public IActionResult Create()
         {
-            ViewData["AlumnoId"] = new SelectList(_context.Alumnos, "Id", "Id");
-            ViewData["AsignaturaId"] = new SelectList(_context.Asignaturas, "Id", "Id");
+            ViewData["AlumnoId"] = new SelectList(_context.Alumnos, "Id", "Nombre");
+            ViewData["AsignaturaId"] = new SelectList(_context.Asignaturas, "Id", "Nombre");
             return View();
         }
 
