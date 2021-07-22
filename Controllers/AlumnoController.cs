@@ -47,7 +47,7 @@ namespace Curso_de_ASP.NET_Core.Controllers
         // GET: Alumno/Create
         public IActionResult Create()
         {
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Id");
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nombre");
             return View();
         }
 
